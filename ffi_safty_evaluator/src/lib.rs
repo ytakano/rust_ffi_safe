@@ -351,9 +351,7 @@ mod tests {
     fn separate_output_legal() {
         let mut src = [1u8, 2, 3, 4];
         let mut dst: *const u8 = std::ptr::null();
-        unsafe {
-            super::ffi::separate_output_legal(src.as_mut_ptr(), src.len(), &mut dst)
-        };
+        unsafe { super::ffi::separate_output_legal(src.as_mut_ptr(), src.len(), &mut dst) };
         assert!(!dst.is_null());
         // dst points to a fresh copy; different address from src.
         assert_ne!(dst, src.as_ptr());
@@ -367,9 +365,7 @@ mod tests {
     fn in_place_alias_illegal() {
         let mut src = [1u8, 2, 3, 4];
         let mut dst: *const u8 = std::ptr::null();
-        unsafe {
-            super::ffi::in_place_alias_illegal(src.as_mut_ptr(), src.len(), &mut dst)
-        };
+        unsafe { super::ffi::in_place_alias_illegal(src.as_mut_ptr(), src.len(), &mut dst) };
         // dst now aliases src — both point to the same memory.
         assert_eq!(dst, src.as_ptr());
     }
@@ -415,9 +411,7 @@ mod tests {
     fn write_through_const_illegal() {
         // Mutates through a const pointer — violates shared borrow.
         let data: [u8; 4] = [1, 2, 3, 4];
-        unsafe {
-            super::ffi::write_through_const_illegal(data.as_ptr(), data.len())
-        };
+        unsafe { super::ffi::write_through_const_illegal(data.as_ptr(), data.len()) };
         // data[0] has been overwritten with 0xFF by the C function.
         assert_eq!(data[0], 0xFF);
     }
@@ -539,9 +533,7 @@ mod tests {
     fn copy_nonoverlap_legal() {
         let src: [u8; 4] = [1, 2, 3, 4];
         let mut dst: [u8; 4] = [0; 4];
-        unsafe {
-            super::ffi::copy_nonoverlap_legal(dst.as_mut_ptr(), src.as_ptr(), src.len())
-        };
+        unsafe { super::ffi::copy_nonoverlap_legal(dst.as_mut_ptr(), src.as_ptr(), src.len()) };
         assert_eq!(dst, [1, 2, 3, 4]);
     }
 
